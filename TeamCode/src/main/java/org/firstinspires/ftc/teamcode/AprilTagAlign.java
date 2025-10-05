@@ -17,9 +17,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 public class AprilTagAlign extends OpMode {
     // hardware objects
     private Limelight3A limelight;
-    private IMU imu;
+    //private IMU imu;
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
-
 
 
     // Tuning constants
@@ -32,7 +31,7 @@ public class AprilTagAlign extends OpMode {
 
         // hardware init
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
-        imu = hardwareMap.get(IMU.class, "imu");
+        //imu = hardwareMap.get(IMU.class, "imu");
 
         frontLeft  = hardwareMap.get(DcMotorEx.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
