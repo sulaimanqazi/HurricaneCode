@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
-@TeleOp(name="limelightTest")
+@TeleOp(name="AprilTagAlign")
 public class AprilTagAlign extends OpMode {
     // hardware objects
     private Limelight3A limelight;
@@ -37,6 +37,7 @@ public class AprilTagAlign extends OpMode {
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
         backLeft   = hardwareMap.get(DcMotorEx.class, "backLeft");
         backRight  = hardwareMap.get(DcMotorEx.class, "backRight");
+<<<<<<< Updated upstream
 
         //make sure the voltage is sent to motors
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -51,6 +52,9 @@ public class AprilTagAlign extends OpMode {
         //backRight.setDirection(DcMotor.Direction.REVERSE);
 
         // limelight pipeline #1
+=======
+        // choose the limelight pipeline you want
+>>>>>>> Stashed changes
         limelight.pipelineSwitch(0);
     }
 
@@ -72,6 +76,7 @@ public class AprilTagAlign extends OpMode {
 
 
             telemetry.addData("tx", tx);
+            telemetry.addData("yaw", orientation.getYaw());
 
             if (gamepad1.a) {
                 double rotationPower = kP * tx; // basic P control FOR tx
