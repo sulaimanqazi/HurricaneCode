@@ -56,7 +56,6 @@ public class AprilTagAlign extends OpMode {
         if (llResult != null && llResult.isValid()) {
             double tx = llResult.getTx(); // horizontal offset in degrees
             telemetry.addData("tx", tx);
-            telemetry.addData("yaw", orientation.getYaw());
 
             if (gamepad1.a) { // while A is held, do auto-align
                 // ---------- PROPORTIONAL CONTROLLER ----------
