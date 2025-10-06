@@ -5,56 +5,38 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
-@TeleOp(name="AprilTagAlign")
+@TeleOp(name="limelightTest")
 public class AprilTagAlign extends OpMode {
     // hardware objects
     private Limelight3A limelight;
-    //private IMU imu;
+    private IMU imu;
+
+    // motors must be class-level so all methods can access them
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
 
-
-    // Tuning constants
+    // ----- tuning constants -----
     private static final double kP = 0.02;     // proportional gain
     private static final double MIN_POWER = 0.05; // minimum motor power when moving
-    private static final double TX_TOLERANCE = 1.0; // the reference for the proportional controller
+    private static final double TX_TOLERANCE = 1.0; // degrees: when |tx| <= this, consider aligned
 
     @Override
     public void init() {
-
-        // hardware init
+        // link software objects to robot config names
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
-        //imu = hardwareMap.get(IMU.class, "imu");
+        imu = hardwareMap.get(IMU.class, "imu");
 
         frontLeft  = hardwareMap.get(DcMotorEx.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
         backLeft   = hardwareMap.get(DcMotorEx.class, "backLeft");
         backRight  = hardwareMap.get(DcMotorEx.class, "backRight");
-<<<<<<< Updated upstream
 
-        //make sure the voltage is sent to motors
-        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
-        //frontLeft.setDirection(DcMotor.Direction.FORWARD);
-        //backLeft.setDirection(DcMotor.Direction.FORWARD);
-        //frontRight.setDirection(DcMotor.Direction.REVERSE);
-        //backRight.setDirection(DcMotor.Direction.REVERSE);
-
-        // limelight pipeline #1
-=======
         // choose the limelight pipeline you want
->>>>>>> Stashed changes
         limelight.pipelineSwitch(0);
     }
 
@@ -65,52 +47,57 @@ public class AprilTagAlign extends OpMode {
 
     @Override
     public void loop() {
-        // don't worry about this part but don't delete it yet
+        // update robot orientation (some Limelight APIs use this for pose math)
         //YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         //limelight.updateRobotOrientation(orientation.getYaw());
 
+        // get the most recent Limelight result
         LLResult llResult = limelight.getLatestResult();
 
         if (llResult != null && llResult.isValid()) {
-            double tx = llResult.getTx();
-
-
+            double tx = llResult.getTx(); // horizontal offset in degrees
             telemetry.addData("tx", tx);
-            telemetry.addData("yaw", orientation.getYaw());
 
-            if (gamepad1.a) {
-                double rotationPower = kP * tx; // basic P control FOR tx
+            if (gamepad1.a) { // while A is held, do auto-align
+                // ---------- PROPORTIONAL CONTROLLER ----------
+                double rotationPower = kP * tx; // basic P control
 
+                // if power is too small to move the robot, but we're still outside tolerance,
+                // give it a minimum nudge (preserve direction with copySign)
                 if (Math.abs(rotationPower) < MIN_POWER && Math.abs(tx) > TX_TOLERANCE) {
                     rotationPower = Math.copySign(MIN_POWER, rotationPower);
 
-                    // Tx > 0 -> Robot is facing Right
-                    // Tx < 0 -> Robot is facing Left
+                    // Tx > 0 -> Right
+                    // Tx < 0 -> Left
                 }
-                // this is basically where the "error" is when it reaches 1 degree tx or smaller the code stops
+
+                // if inside deadband (tolerance) stop; otherwise rotate
                 if (Math.abs(tx) <= TX_TOLERANCE) {
                     stopMotors();
                     telemetry.addData("status", "Aligned");
-
                 } else {
+                    // optional: clamp to motor range [-1, 1]
                     rotationPower = Math.max(-1.0, Math.min(1.0, rotationPower));
                     rotateInPlace(rotationPower);
                     telemetry.addData("status", "Rotating");
                     telemetry.addData("rotationPower", rotationPower);
                 }
             } else {
+                // not auto-aligning: stop rotation (or allow driver control here)
                 stopMotors();
             }
         } else {
+            // no valid target seen: stop motors (or you could keep last command)
             stopMotors();
             telemetry.addData("status", "No target");
         }
+
         telemetry.update();
     }
 
+    // rotation for mecanum (left side forward, right side backward => clockwise for +power)
     private void rotateInPlace(double power) {
-        // Tx > 0 -> Robot is facing Right
-        // Tx < 0 -> Robot is facing Left
+
         // if tx < 0 that means power , then robot is facing left
 
         frontLeft.setPower(power);
