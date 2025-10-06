@@ -8,20 +8,23 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 @TeleOp(name = "IntakeTest")
 public class IntakeTest extends OpMode {
 
-    private DcMotorEx intakemotor1,intakemotor2;
+    private DcMotorEx intakeMotor1;
+    private DcMotorEx intakeMotor2;
+
 
     @Override
     public void init(){
-        intakemotor1 = hardwareMap.get(DcMotorEx.class,"frontLeft");
-        intakemotor2 = hardwareMap.get(DcMotorEx.class,"frontRight");
+
+        intakeMotor1 = hardwareMap.get(DcMotorEx.class,"frontLeft");
+        intakeMotor2 = hardwareMap.get(DcMotorEx.class,"frontRight");
     }
 
     @Override
     public void loop(){
         double y = -gamepad1.left_stick_y;
 
-        intakemotor1.setPower(y);
-        intakemotor2.setPower(y);
+        intakeMotor1.setPower(y);
+        intakeMotor2.setPower(y);
 
     }
 }
