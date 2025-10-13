@@ -22,7 +22,7 @@ public class AprilTagAlign extends OpMode {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
 
     // ----- tuning constants -----
-    private static final double kP = 0.02;     // proportional gain
+    private static final double kP = 0.04;     // proportional gain
     private static final double MIN_POWER = 0.05; // minimum motor power when moving
     private static final double TX_TOLERANCE = 1.0; // degrees: when |tx| <= this, consider aligned
 
