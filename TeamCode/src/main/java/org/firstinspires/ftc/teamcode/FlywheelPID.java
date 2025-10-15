@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 @Config
-@TeleOp ()
+@TeleOp (name = "FlywheelPID")
 public class FlywheelPID extends OpMode {
 
     public static double p = 0, i = 0, d = 0;
