@@ -37,8 +37,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name = "2025 TeleOp")
-
+@TeleOp(name = " Mecanumdrive + AprilTagAlign")
 
 public class TeleopField extends OpMode {
     // This declares the four motors needed
@@ -55,8 +54,6 @@ public class TeleopField extends OpMode {
 
     @Override
     public void init() {
-
-
 
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRightDrive = hardwareMap.get(DcMotor.class, "frontRight");
