@@ -1,17 +1,8 @@
 //
 // build.gradle in TeamCode
 //
-// Most of the definitions for building your module reside in a common, shared
-// file 'build.common.gradle'. Being factored in this way makes it easier to
-// integrate updates to the FTC into your code. If you really need to customize
-// the build definitions, you can place those customizations in this file, but
-// please think carefully as to whether such customizations are really necessary
-// before doing so.
 
-
-// Custom definitions may go here
-
-// Include common definitions from above.
+// Include common definitions from above
 apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
 
@@ -24,6 +15,32 @@ android {
 }
 
 dependencies {
+    // Core modules
     implementation project(':FtcRobotController')
-    implementation 'com.acmerobotics.dashboard:dashboard:0.5.0'
+    implementation('com.acmerobotics.dashboard:dashboard:0.5.0')
+
+    // Exclude all Kotlin transitive dependencies to prevent duplicate class errors
+    implementation('org.firstinspires.ftc:RobotCore:11.0.0') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    implementation('org.firstinspires.ftc:FtcCommon:11.0.0') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+
+    // Optional: If other FTC modules are needed, exclude Kotlin from them as well
+    implementation('org.firstinspires.ftc:Inspection:11.0.0') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    implementation('org.firstinspires.ftc:Blocks:11.0.0') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    implementation('org.firstinspires.ftc:Hardware:11.0.0') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    implementation('org.firstinspires.ftc:Vision:11.0.0') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    implementation('org.firstinspires.ftc:OnBotJava:11.0.0') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
 }
