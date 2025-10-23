@@ -12,11 +12,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp
 public class FlywheelTeleOp extends OpMode {
 
-    // ---------- FTC Dashboard tuning ----------
     public static double kP = 0.01;       // proportional gain
     public static double kF = 0.00042;    // feedforward gain
     public static double maxTargetTPS = 1500; // target speed in ticks/sec
-
     private static final double OUTPUT_MAX = 1.0;
     private static final String MOTOR_NAME = "flywheel_motor";
 
@@ -44,7 +42,6 @@ public class FlywheelTeleOp extends OpMode {
         boolean buttonPressed = gamepad1.a;
         if (buttonPressed && !lastButtonState) flywheelOn = !flywheelOn;
         lastButtonState = buttonPressed;
-
         double targetTPS = flywheelOn ? maxTargetTPS : 0.0;
 
         // Use motor.getVelocity() for measured speed
@@ -52,11 +49,13 @@ public class FlywheelTeleOp extends OpMode {
         double power = kF * targetTPS + kP * (targetTPS - measuredTPS);
         power = Math.max(0, Math.min(OUTPUT_MAX, power));
         motor.setPower(power);
+        double RPM = measuredTPS/28;
 
         // Telemetry
         telemetry.addData("Target TPS", targetTPS);
         telemetry.addData("Measured TPS", measuredTPS);
         telemetry.addData("Power", power);
+
         telemetry.update();
     }
 
