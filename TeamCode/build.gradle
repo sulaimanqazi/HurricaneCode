@@ -45,7 +45,8 @@ dependencies {
     implementation project(':FtcRobotController')
 
     // Dashboard (used in multiple branches)
-    implementation('com.acmerobotics.dashboard:dashboard:0.5.0')
+    implementation 'com.acmerobotics.dashboard:dashboard:0.4.16' //I THINK THIS IS AN ISSUE
+
 
     // NextFTC - NOW ON ALL BRANCHES
     implementation 'dev.nextftc:ftc:1.0.1'
