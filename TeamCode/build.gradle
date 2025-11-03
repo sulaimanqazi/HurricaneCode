@@ -18,6 +18,7 @@ buildscript {
     }
     dependencies {
         classpath "dev.frozenmilk:Load:0.2.4"
+
     }
 }
 
@@ -53,6 +54,10 @@ dependencies {
 
     // Sinister Sloth library (from limelight branch)
     implementation "dev.frozenmilk.sinister:Sloth:0.2.4"
+
+    //nextFTC :) 
+    implementation 'dev.nextftc:ftc:1.0.1'
+    implementation 'dev.nextftc:hardware:1.0.1' // If you would like to use the hardware module
 
     // Explicit FTC modules with Kotlin exclusions (from flywheel_final and Tuned-flywheel)
     implementation('org.firstinspires.ftc:RobotCore:11.0.0') {
