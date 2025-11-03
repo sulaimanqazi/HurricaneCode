@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.TransferServo;
 public class TransferTeleOp extends NextFTCOpMode {
     public TransferTeleOp() {
         addComponents(
-                new SubsystemComponent(Transfer.INSTANCE),
+                new SubsystemComponent(Transfer.INSTANCE, TransferServo.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
