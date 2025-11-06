@@ -11,12 +11,10 @@ public class Flywheel implements Subsystem {
     private Flywheel() { }
 
     private final MotorEx motor = new MotorEx("flywheel_motor");
-
     private final ControlSystem controller = ControlSystem.builder()
             .velPid(0.005, 0, 0)
             .basicFF(0.01, 0.02, 0.03)
             .build();
-
     public final Command off = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelOff");
 
     // tweak RPM in this command we want it to be at 2000
