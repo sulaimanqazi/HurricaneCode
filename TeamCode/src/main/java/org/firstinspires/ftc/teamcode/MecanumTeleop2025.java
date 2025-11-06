@@ -1,5 +1,52 @@
 package org.firstinspires.ftc.teamcode;
 
+
+
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.components.BindingsComponent;
+import dev.nextftc.core.components.SubsystemComponent;
+import dev.nextftc.ftc.Gamepads;
+import dev.nextftc.ftc.NextFTCOpMode;
+import dev.nextftc.ftc.components.BulkReadComponent;
+import dev.nextftc.hardware.driving.MecanumDriverControlled;
+import dev.nextftc.hardware.impl.MotorEx;
+
+import org.firstinspires.ftc.teamcode.guide.java.subsystems.Flywheel;
+import org.firstinspires.ftc.teamcode.subsystems.*;
+@TeleOp(name = "NextFTC TeleOp Program Java")
+public class MecanumTeleop2025 extends NextFTCOpMode {
+    public MecanumTeleop2025() {
+        addComponents(
+                new SubsystemComponent(Transfer.INSTANCE, TransferServo.INSTANCE, Flywheel.INSTANCE),
+                BulkReadComponent.INSTANCE,
+                BindingsComponent.INSTANCE
+        );
+    }
+
+
+    @Override
+    public void onStartButtonPressed() {
+        Gamepads.gamepad1().a()
+                .whenBecomesTrue(Flywheel.INSTANCE.on)
+                .whenBecomesFalse(Flywheel.INSTANCE.off);
+
+        // Transfer controls - B button
+        Gamepads.gamepad1().b()
+                .whenBecomesTrue(Transfer.INSTANCE.on)
+                .whenBecomesFalse(Transfer.INSTANCE.off);
+
+        // Transfer Servo controls - X button
+        Gamepads.gamepad1().x()
+                .whenBecomesTrue(TransferServo.INSTANCE.open)
+                .whenBecomesFalse(TransferServo.INSTANCE.close);
+
+
+    }
+}
+
+
+/*
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -62,3 +109,4 @@ public class MecanumTeleop2025 extends OpMode {
 
 
 }
+*/
