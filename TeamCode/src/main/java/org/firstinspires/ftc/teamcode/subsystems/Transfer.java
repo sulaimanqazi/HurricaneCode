@@ -16,7 +16,7 @@ public class Transfer implements Subsystem {
     public static final Transfer INSTANCE = new Transfer();
     private Transfer() { }
 
-    private final MotorEx motor = new MotorEx("transferMotor");
+    private final MotorEx motor = new MotorEx("transferMotor").brakeMode(); //brake mode sets 0 values to brake
 
     private final ControlSystem controller = ControlSystem.builder()
             .velPid(0.005, 0, 0)
@@ -32,8 +32,8 @@ public class Transfer implements Subsystem {
     //INTAKING COMMAND - Here its the same as simply turning on, its spinning in one direction (not reverse direction)
     public final Command intaking = new RunToVelocity(controller, 500.0).requires(this).named("intaking");
 
-    //DRIVING COMMAND
-    public final Command driving = whateverbrakemode.named("driving");
+    //DRIVING COMMAND - 0 value automatically means brake mode
+    public final Command driving = new RunToVelocity(controller, 0.0).requires(this).named("driving");
 
 
     //SHOOTING COMMAND  - Here its the same as simply turning on, its spinning in one direction (not reverse direction)
