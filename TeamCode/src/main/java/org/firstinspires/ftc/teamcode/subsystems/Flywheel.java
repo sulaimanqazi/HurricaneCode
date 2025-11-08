@@ -29,11 +29,11 @@ public class Flywheel implements Subsystem {
 
 
     //INTAKING COMMAND - Here its just off
-    public final Command intaking = new RunToVelocity(controller, 0.0).requires(this).named("intaking"); // I assume that by setting the same names they all operate at once on the same command
+    public final Command intaking = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelIntaking"); // I assume that by setting the same names they all operate at once on the same command
 
     //DRIVING COMMAND - Here its just off
 
-    public final Command driving = new RunToVelocity(controller, 0.0).requires(this).named("driving");
+    public final Command driving = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelDriving");
 
 
     //SHOOTING COMMAND 3 different versions
