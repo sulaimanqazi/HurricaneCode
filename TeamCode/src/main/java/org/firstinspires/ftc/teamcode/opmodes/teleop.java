@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -56,6 +57,7 @@ public class teleop extends NextFTCOpMode{
                 .whenBecomesFalse(Transfer.INSTANCE.off)
                 .whenBecomesFalse(Transfer.INSTANCE.off);
 
+
         // Transfer Servo controls - X button
         Gamepads.gamepad1().x()
                 .whenBecomesTrue(TransferServo.INSTANCE.open)
@@ -68,4 +70,3 @@ public class teleop extends NextFTCOpMode{
 
 
 }
-
