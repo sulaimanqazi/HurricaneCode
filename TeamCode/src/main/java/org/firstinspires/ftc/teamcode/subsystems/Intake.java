@@ -13,7 +13,7 @@ public class Intake implements Subsystem {
     public static final Intake INSTANCE = new Intake();
     private Intake() { }
 
-    private final MotorEx motor = new MotorEx("intake_motor");
+    private final MotorEx motor = new MotorEx("intakeMotor");
 
     private final ControlSystem controller = ControlSystem.builder()
             .velPid(0.005, 0, 0)

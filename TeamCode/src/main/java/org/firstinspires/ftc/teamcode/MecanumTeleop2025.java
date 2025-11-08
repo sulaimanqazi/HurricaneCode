@@ -12,7 +12,7 @@ import dev.nextftc.ftc.components.BulkReadComponent;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
 import dev.nextftc.hardware.impl.MotorEx;
 
-import org.firstinspires.ftc.teamcode.guide.java.subsystems.Flywheel;
+import org.firstinspires.ftc.teamcode.subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 @TeleOp(name = "NextFTC TeleOp Program Java")
 public class MecanumTeleop2025 extends NextFTCOpMode {
@@ -28,7 +28,7 @@ public class MecanumTeleop2025 extends NextFTCOpMode {
     @Override
     public void onStartButtonPressed() {
         Gamepads.gamepad1().a()
-                .whenBecomesTrue(Flywheel.INSTANCE.on)
+                .whenBecomesTrue(Flywheel.INSTANCE.highPower)
                 .whenBecomesFalse(Flywheel.INSTANCE.off);
 
         // Transfer controls - B button

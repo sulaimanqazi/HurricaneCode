@@ -15,7 +15,7 @@ public class Transfer implements Subsystem {
     public static final Transfer INSTANCE = new Transfer();
     private Transfer() { }
 
-    private final MotorEx motor = new MotorEx("transfer_motor");
+    private final MotorEx motor = new MotorEx("transferMotor");
 
     private final ControlSystem controller = ControlSystem.builder()
             .velPid(0.005, 0, 0)
