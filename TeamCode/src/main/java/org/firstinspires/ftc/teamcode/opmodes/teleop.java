@@ -56,7 +56,6 @@ public class teleop extends NextFTCOpMode{
                 .whenBecomesFalse(Transfer.INSTANCE.off)
                 .whenBecomesFalse(Transfer.INSTANCE.off);
 
-
         // Transfer Servo controls - X button
         Gamepads.gamepad1().x()
                 .whenBecomesTrue(TransferServo.INSTANCE.open)
