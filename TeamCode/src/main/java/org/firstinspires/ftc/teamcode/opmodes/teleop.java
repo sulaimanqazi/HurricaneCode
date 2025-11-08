@@ -16,15 +16,32 @@ import org.firstinspires.ftc.teamcode.subsystems.*;
 public class teleop extends NextFTCOpMode{
     public teleop() {
         addComponents(
-                new SubsystemComponent(Transfer.INSTANCE, TransferServo.INSTANCE, org.firstinspires.ftc.teamcode.guide.java.subsystems.Flywheel.INSTANCE),
+                new SubsystemComponent(Transfer.INSTANCE, TransferServo.INSTANCE, org.firstinspires.ftc.teamcode.subsystems.Flywheel.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
     }
 
+    private final MotorEx frontLeftmotor = new MotorEx("frontLeft").reversed();
+    private final MotorEx frontRightMotor = new MotorEx("frontLeft").reversed();
+    private final MotorEx backLeftMotor = new MotorEx("frontLeft").reversed();
+    private final MotorEx backRightMotor = new MotorEx("frontLeft").reversed();
+
 
     @Override
     public void onStartButtonPressed() {
+
+        // mecanum drivetrain control
+        Command driverControlled = new MecanumDriverControlled(
+                frontLeftmotor,
+                frontRightMotor,
+                backLeftMotor,
+                backRightMotor,
+                Gamepads.gamepad1().leftStickY().negate(),
+                Gamepads.gamepad1().leftStickX(),
+                Gamepads.gamepad1().rightStickX()
+        );
+        driverControlled.schedule();
 
         // flywheel control - A button
         Gamepads.gamepad1().a()
@@ -34,7 +51,11 @@ public class teleop extends NextFTCOpMode{
         // Transfer controls - B button
         Gamepads.gamepad1().b()
                 .whenBecomesTrue(Transfer.INSTANCE.on)
+                .whenBecomesTrue(Transfer.INSTANCE.on)
+
+                .whenBecomesFalse(Transfer.INSTANCE.off)
                 .whenBecomesFalse(Transfer.INSTANCE.off);
+
 
         // Transfer Servo controls - X button
         Gamepads.gamepad1().x()
