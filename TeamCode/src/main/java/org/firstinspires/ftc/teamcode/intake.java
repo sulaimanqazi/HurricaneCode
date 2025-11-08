@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
-@TeleOp
-public class IntakeTest extends OpMode {
+@TeleOp(name = "intake")
+public class intake extends OpMode {
 
     public static double kP = 0.01;       // proportional gain
     public static double kF = 0.00042;    // feedforward gain
@@ -24,7 +24,7 @@ public class IntakeTest extends OpMode {
     private Servo gate;
     private boolean flywheelOn = false;
     private boolean lastButtonState = false;
-    private double openPos = 0, closePos = 1;
+    public static double openPos = 0.55, closePos = 0.9;
     private boolean lastGateState = false;
     private boolean servoToggled = false;
 
@@ -33,7 +33,7 @@ public class IntakeTest extends OpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
 
-        flywheelMotor = hardwareMap.get(DcMotorEx.class, "flyWheelMotor");
+        flywheelMotor = hardwareMap.get(DcMotorEx.class, "flywheelMotor");
         transferMotor = hardwareMap.get(DcMotorEx.class, "transferMotor");
 
         gate = hardwareMap.get(Servo.class, "gate");
@@ -69,10 +69,10 @@ public class IntakeTest extends OpMode {
 
         telemetry.update();
 
-        intakeMotor.setPower(gamepad1.right_stick_x);
+        intakeMotor.setPower(gamepad1.right_stick_y);
         transferMotor.setPower(gamepad1.left_stick_y);
 
-        boolean currentButtonState = gamepad1.a;  // change button as needed
+        boolean currentButtonState = gamepad1.b;  // change button as needed
 
         // Toggle only when the button is pressed down (edge detection)
         if (currentButtonState && !lastGateState) {
