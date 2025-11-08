@@ -22,6 +22,7 @@ public class Flywheel implements Subsystem {
 
     public final Command off = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelOff");
 
+<<<<<<< Updated upstream
     //public final Command lowPower = new RunToVelocity(controller, 500).requires(this).named("FlywheelOn");
 
     // tweak RPM in this command we want it to be at 2000
@@ -40,6 +41,11 @@ public class Flywheel implements Subsystem {
     public final Command shooting1500 = new RunToVelocity(controller, 1500.0).requires(this).named("shooting1500");
     public final Command shooting2000 = new RunToVelocity(controller, 2000.0).requires(this).named("shooting2000");
     public final Command shooting2500 = new RunToVelocity(controller, 2500.0).requires(this).named("shooting2500");
+=======
+    public final Command flywheel1500RPM = new RunToVelocity(controller, 500.0).requires(this).named("Flywheel1500aRPM");
+    public final Command flywheel2000RPM = new RunToVelocity(controller, 2000).requires(this).named("Flywheel2000RPM");
+    public final Command flywheel2500RPM = new RunToVelocity(controller, 2500).requires(this).named("Flywheel2500RPM");
+>>>>>>> Stashed changes
 
 
 
