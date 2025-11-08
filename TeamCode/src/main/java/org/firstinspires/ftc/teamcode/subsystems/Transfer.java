@@ -10,6 +10,7 @@ import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.hardware.controllable.RunToVelocity;
 import dev.nextftc.hardware.impl.MotorEx;
+import dev.nextftc.hardware.positionable.SetPosition;
 
 public class Transfer implements Subsystem {
     public static final Transfer INSTANCE = new Transfer();
@@ -27,6 +28,20 @@ public class Transfer implements Subsystem {
 
     //attempting a reverse command
     public final Command reverse = new RunToVelocity(controller, -500.0).requires(this).named("TransferReverse");
+
+    //INTAKING COMMAND - Here its the same as simply turning on, its spinning in one direction (not reverse direction)
+    public final Command intaking = new RunToVelocity(controller, 500.0).requires(this).named("intaking");
+
+    //DRIVING COMMAND
+    public final Command driving = whateverbrakemode.named("driving");
+
+
+    //SHOOTING COMMAND  - Here its the same as simply turning on, its spinning in one direction (not reverse direction)
+    public final Command shooting1500 = new RunToVelocity(controller, 500.0).requires(this).named("shooting1500");
+    public final Command shooting2000 = new RunToVelocity(controller, 500.0).requires(this).named("shooting2000");
+    public final Command shooting2500 = new RunToVelocity(controller, 500.0).requires(this).named("shooting2500");
+
+
 
     @Override
     public void periodic() {
