@@ -14,7 +14,6 @@ public class Intake implements Subsystem {
     private Intake() { }
 
     private final MotorEx motor = new MotorEx("intakeMotor");
-
     private final ControlSystem controller = ControlSystem.builder()
             .velPid(0.005, 0, 0)
             .basicFF(0.01, 0.02, 0.03)

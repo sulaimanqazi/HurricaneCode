@@ -14,6 +14,6 @@ public class TransferServo implements Subsystem {
 
     private ServoEx servo = new ServoEx("transfer_servo");
 
-    public Command open = new SetPosition(servo, 0.1).requires(this);
-    public Command close = new SetPosition(servo, 0.2).requires(this);
+    public Command open = new SetPosition(servo, 0.9).requires(this);
+    public Command close = new SetPosition(servo, 0.55).requires(this);
 }
