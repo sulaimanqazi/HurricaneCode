@@ -20,18 +20,17 @@ public class TransferServo implements Subsystem {
 
 
     //INTAKING COMMAND - Here its just off
-    public final Command intaking = new SetPosition(servo, 0.55).requires(this).named("intaking");
+    public final Command intaking = new SetPosition(servo, 0.55).requires(this).named("ServoIntaking");
 
     //DRIVING COMMAND - Here its just off
 
-    public final Command driving = new SetPosition(servo, 0.55).requires(this).named("driving");
+    public final Command driving = new SetPosition(servo, 0.55).requires(this).named("ServoDriving");
 
 
     //SHOOTING COMMAND - here its just ON
 
-    public final Command shooting1500 = new SetPosition(servo, 0.9).requires(this).named("shooting1500");
-    public final Command shooting2000 = new SetPosition(servo, 0.9).requires(this).named("shooting2000"); // i added names to these, not sure if itll work as intended
-    public final Command shooting2500 = new SetPosition(servo, 0.9).requires(this).named("shooting2500");
+    public final Command shooting = new SetPosition(servo, 0.9).requires(this).named("ServoShooting");
+
 
 
 }

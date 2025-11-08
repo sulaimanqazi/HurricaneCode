@@ -26,16 +26,15 @@ public class Intake implements Subsystem {
     public final Command reverse = new RunToVelocity(controller, -500.0).requires(this).named("IntakeReverse");
 
     //INTAKING COMMAND - Here its the same as simply turning on, its spinning in one direction (not reverse direction)
-    public final Command intaking = new RunToVelocity(controller, 500.0).requires(this).named("intaking");
+    public final Command intaking = new RunToVelocity(controller, 500.0).requires(this).named("IntakeIntaking");
 
     //DRIVING COMMAND - 0 value automatically means brake mode
-    public final Command driving = new RunToVelocity(controller, 0.0).requires(this).named("driving");
+    public final Command driving = new RunToVelocity(controller, 0.0).requires(this).named("IntakeDriving");
 
 
     //SHOOTING COMMAND - - Here its the same as simply turning on, its spinning in one direction (not reverse direction)
-    public final Command shooting1500 = new RunToVelocity(controller, 500.0).requires(this).named("shooting1500");
-    public final Command shooting2000 = new RunToVelocity(controller, 500.0).requires(this).named("shooting2000");
-    public final Command shooting2500 = new RunToVelocity(controller, 500.0).requires(this).named("shooting2500");
+    public final Command shooting = new RunToVelocity(controller, 500.0).requires(this).named("IntakeShooting");
+
 
     @Override
     public void periodic() {
