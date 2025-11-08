@@ -37,9 +37,9 @@ public class Flywheel implements Subsystem {
 
 
     //SHOOTING COMMAND 3 different versions
-    public final Command shooting1500 = new RunToVelocity(controller, 1500.0).requires(this).named("FlywheelDriving");
-    public final Command shooting2000 = new RunToVelocity(controller, 2000.0).requires(this).named("FlywheelDriving");
-    public final Command shooting2500 = new RunToVelocity(controller, 2500.0).requires(this).named("FlywheelDriving");
+    public final Command shooting1500 = new RunToVelocity(controller, 1500.0).requires(this).named("shooting1500");
+    public final Command shooting2000 = new RunToVelocity(controller, 2000.0).requires(this).named("shooting2000");
+    public final Command shooting2500 = new RunToVelocity(controller, 2500.0).requires(this).named("shooting2500");
 
 
 
