@@ -42,6 +42,7 @@ public class teleop extends NextFTCOpMode{
                 Gamepads.gamepad1().leftStickX(),
                 Gamepads.gamepad1().rightStickX()
         );
+
         driverControlled.schedule();
 
         // flywheel control - A button
@@ -56,6 +57,8 @@ public class teleop extends NextFTCOpMode{
 
                 .whenBecomesFalse(Transfer.INSTANCE.off)
                 .whenBecomesFalse(Transfer.INSTANCE.off);
+
+
 
 
         // Transfer Servo controls - X button

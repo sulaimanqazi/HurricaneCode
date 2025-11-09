@@ -22,18 +22,6 @@ public class Flywheel implements Subsystem {
 
     public final Command off = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelOff");
 
-    //public final Command lowPower = new RunToVelocity(controller, 500).requires(this).named("FlywheelOn");
-
-    // tweak RPM in this command we want it to be at 2000
-   // public final Command mediumPower = new RunToVelocity(controller, 1000).requires(this).named("FlywheelOn");
-
-
-    //INTAKING COMMAND - Here its just off
-    public final Command intaking = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelIntaking"); // I assume that by setting the same names they all operate at once on the same command
-
-    //DRIVING COMMAND - Here its just off
-
-    public final Command driving = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelDriving");
 
 
     //SHOOTING COMMAND 3 different versions
