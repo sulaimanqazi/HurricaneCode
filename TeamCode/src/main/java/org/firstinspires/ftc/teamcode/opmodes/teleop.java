@@ -14,7 +14,10 @@ import dev.nextftc.hardware.impl.MotorEx;
 import org.firstinspires.ftc.teamcode.subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 
+
 public class teleop extends NextFTCOpMode{
+
+
     public teleop() {
         addComponents(
                 new SubsystemComponent(Transfer.INSTANCE, TransferServo.INSTANCE, org.firstinspires.ftc.teamcode.subsystems.Flywheel.INSTANCE),
@@ -65,7 +68,13 @@ public class teleop extends NextFTCOpMode{
 
 
     }
+    public void onUpdate() {
 
+        Gamepads.gamepad1().a()
+                .whenBecomesTrue(AprilTagAlignHelper.)
+
+
+    }
 
 
 
