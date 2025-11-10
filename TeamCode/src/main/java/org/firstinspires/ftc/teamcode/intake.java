@@ -21,10 +21,15 @@ public class intake extends OpMode {
     private DcMotorEx flywheelMotor;
     private DcMotorEx intakeMotor;
     private DcMotorEx transferMotor;
+    private DcMotorEx frontLeftMotor;
+    private DcMotorEx frontRightMotor;
+    private DcMotorEx backRightMotor;
+    private DcMotorEx backLeftMotor;
+
     private Servo gate;
     private boolean flywheelOn = false;
     private boolean lastButtonState = false;
-    public static double openPos = 0.55, closePos = 0.9;
+    public static double openPos = 0.6, closePos = 0.76;
     private boolean lastGateState = false;
     private boolean servoToggled = false;
 
@@ -32,9 +37,30 @@ public class intake extends OpMode {
     public void init() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
+        transferMotor = hardwareMap.get(DcMotorEx.class, "transferMotor");
+
+
+         frontLeftMotor = hardwareMap.get(DcMotorEx.class, "frontLeft");
+         backLeftMotor = hardwareMap.get(DcMotorEx.class, "backLeft");
+         frontRightMotor = hardwareMap.get(DcMotorEx.class, "frontRight");
+         backRightMotor = hardwareMap.get(DcMotorEx.class, "backRight");
+
+        // Reverse the right side motors. This may be wrong for your setup.
+        // If your robot moves backwards when commanded to go forwards,
+        // reverse the left side instead.
+        // See the note about this earlier on this page.
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        intakeMotor.setDirection(DcMotor.Direction.REVERSE);
+        transferMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
 
         flywheelMotor = hardwareMap.get(DcMotorEx.class, "flywheelMotor");
-        transferMotor = hardwareMap.get(DcMotorEx.class, "transferMotor");
 
         gate = hardwareMap.get(Servo.class, "gate");
 
@@ -68,9 +94,19 @@ public class intake extends OpMode {
         telemetry.addData("Power", power);
 
         telemetry.update();
+        if (gamepad1.left_bumper){
+        intakeMotor.setPower(1);
+        } else{
+            intakeMotor.setPower(0);
+        }
 
-        intakeMotor.setPower(gamepad1.right_stick_y);
-        transferMotor.setPower(gamepad1.left_stick_y);
+        if (gamepad1.right_bumper){
+            transferMotor.setPower(1);
+        }
+        else{
+            transferMotor.setPower(0);
+
+        }
 
         boolean currentButtonState = gamepad1.b;  // change button as needed
 
@@ -88,6 +124,24 @@ public class intake extends OpMode {
 
         // Remember current button state
         lastGateState = currentButtonState;
+
+        double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
+        double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+        double rx = gamepad1.right_stick_x;
+
+        // Denominator is the largest motor power (absolute value) or 1
+        // This ensures all the powers maintain the same ratio,
+        // but only if at least one is out of the range [-1, 1]
+        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+        double frontLeftPower = (y + x + rx) / denominator;
+        double backLeftPower = (y - x + rx) / denominator;
+        double frontRightPower = (y - x - rx) / denominator;
+        double backRightPower = (y + x - rx) / denominator;
+
+        frontLeftMotor.setPower(frontLeftPower);
+        backLeftMotor.setPower(backLeftPower);
+        frontRightMotor.setPower(frontRightPower);
+        backRightMotor.setPower(backRightPower);
 
     }
 
