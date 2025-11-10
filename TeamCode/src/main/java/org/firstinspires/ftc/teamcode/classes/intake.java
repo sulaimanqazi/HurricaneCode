@@ -77,7 +77,7 @@ public class intake extends OpMode {
     @Override
     public void loop() {
         // Toggle flywheel on/off with A button
-        boolean buttonPressed = gamepad1.a;
+        boolean buttonPressed = gamepad2.a;
         if (buttonPressed && !lastButtonState) flywheelOn = !flywheelOn;
         lastButtonState = buttonPressed;
         double targetTPS = flywheelOn ? maxTargetTPS : 0.0;
@@ -94,13 +94,13 @@ public class intake extends OpMode {
         telemetry.addData("Power", power);
 
         telemetry.update();
-        if (gamepad1.left_bumper){
+        if (gamepad2.left_bumper){
         intakeMotor.setPower(1);
         } else{
             intakeMotor.setPower(0);
         }
 
-        if (gamepad1.right_bumper){
+        if (gamepad2.right_bumper){
             transferMotor.setPower(1);
         }
         else{
@@ -125,7 +125,7 @@ public class intake extends OpMode {
         // Remember current button state
         lastGateState = currentButtonState;
 
-        double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
+        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
         double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
         double rx = gamepad1.right_stick_x;
 

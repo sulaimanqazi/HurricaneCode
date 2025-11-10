@@ -15,7 +15,7 @@ public class transferGate {
     public transferGate(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
 
-        ServoGate = hardwareMap.get(Servo.class, ("TransferServo"));
+        ServoGate = hardwareMap.get(Servo.class, ("gate"));
     }
     public void OpenGate (boolean GateToggle) {
 

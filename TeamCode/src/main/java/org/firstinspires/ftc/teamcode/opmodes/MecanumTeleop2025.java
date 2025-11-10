@@ -5,47 +5,42 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.classes.AprilTagAlignHelper;
 import org.firstinspires.ftc.teamcode.classes.Flywheel;
 import org.firstinspires.ftc.teamcode.classes.transferGate;
-@TeleOp
+@TeleOp(name = "teleop")
 public class MecanumTeleop2025 extends OpMode {
+    private DcMotorEx frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor, intakeMotor, transferMotor;
 
-
-    private DcMotorEx frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
-
+    private Servo gate;
 
     AprilTagAlignHelper aprilTagAlign;
     Flywheel FlywheelPID;
-
-
     transferGate Gate;
-
 
     boolean toggle = false;
     boolean GateState = false;
 
-
-
-
-
+    private boolean lastButtonState = false;
+    public static double openPos = 0.6, closePos = 0.76;
+    private boolean lastGateState = false;
+    private boolean servoToggled = false;
 
     @Override
     public void init() {
-
-
-
-
 
 
         frontLeftMotor = hardwareMap.get(DcMotorEx.class, "frontLeft");
         backLeftMotor = hardwareMap.get(DcMotorEx.class,"backLeft");
         frontRightMotor = hardwareMap.get(DcMotorEx.class, "frontRight");
         backRightMotor = hardwareMap.get(DcMotorEx.class, "backRight");
-
+        intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
+        transferMotor = hardwareMap.get(DcMotorEx.class, "transferMotor");
+        gate = hardwareMap.get(Servo.class, "gate");
 
         // Reverse the right side motors. This may be wrong for your setup.
         // If your robot moves backwards when commanded to go forwards,
@@ -58,7 +53,6 @@ public class MecanumTeleop2025 extends OpMode {
         // create objects
         aprilTagAlign = new AprilTagAlignHelper(hardwareMap,telemetry);
         FlywheelPID = new Flywheel(hardwareMap, telemetry);
-        Gate = new transferGate(hardwareMap, telemetry);
 
 
     }
@@ -68,28 +62,46 @@ public class MecanumTeleop2025 extends OpMode {
     //boolean currentPress = gamepad1.B;
     public void loop() {
 
+        if (gamepad2.left_bumper){
+            intakeMotor.setPower(1);
+        } else{
+            intakeMotor.setPower(0);
+        }
 
+        if (gamepad2.right_bumper){
+            transferMotor.setPower(1);
+        }
+        else{
+            transferMotor.setPower(0);
 
+        }
 
+        boolean currentButtonState = gamepad1.b;  // change button as needed
 
+        // Toggle only when the button is pressed down (edge detection)
+        if (currentButtonState && !lastGateState) {
+            servoToggled = !servoToggled; // flips between true and false
+        }
+
+        // Update servo position
+        if (servoToggled) {
+            gate.setPosition(openPos);
+        } else {
+            gate.setPosition(closePos);
+        }
+
+        // Remember current button state
+        lastGateState = currentButtonState;
 
 
 
         // if gamepad1.a is held returns true, if not it returns false
         aprilTagAlign.alignToAprilTag(gamepad1.a);
 
-
         // hold x to activate flywheel
         FlywheelPID.update(gamepad1.x);
 
-
-        // click B to open gate, then click B to close gate.
-
-
-
-
-
-
+        // click B to open gate, then click B to close gate. work in progress
 
 
         double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed

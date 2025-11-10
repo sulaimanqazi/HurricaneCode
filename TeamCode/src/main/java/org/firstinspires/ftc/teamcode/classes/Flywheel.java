@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.classes;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
+@Config
 public class Flywheel {
     private DcMotorEx flywheelMotor;
+
+    private DcMotorEx TransferMotor;
     private Telemetry telemetry;
 
     // PID coefficients
