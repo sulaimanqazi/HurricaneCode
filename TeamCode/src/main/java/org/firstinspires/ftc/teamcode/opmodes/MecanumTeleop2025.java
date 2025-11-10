@@ -1,20 +1,23 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.classes.AprilTagAlignHelper;
+import org.firstinspires.ftc.teamcode.classes.Flywheel;
 @TeleOp
 public class MecanumTeleop2025 extends OpMode {
 
     private DcMotorEx frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
+
     AprilTagAlignHelper aprilTagAlign;
+    Flywheel FlywheelPID;
 
     @Override
     public void init() {
+
 
 
          frontLeftMotor = hardwareMap.get(DcMotorEx.class, "frontLeft");
@@ -33,6 +36,12 @@ public class MecanumTeleop2025 extends OpMode {
     }
     @Override
     public void loop() {
+
+
+        // if gamepad1.a is held returns true, if not it returns false
+        aprilTagAlign.alignToAprilTag(gamepad1.a);
+
+
         double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
         double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
         double rx = gamepad1.right_stick_x;
@@ -50,6 +59,8 @@ public class MecanumTeleop2025 extends OpMode {
         backLeftMotor.setPower(backLeftPower);
         frontRightMotor.setPower(frontRightPower);
         backRightMotor.setPower(backRightPower);
+
+
     }
 
 
