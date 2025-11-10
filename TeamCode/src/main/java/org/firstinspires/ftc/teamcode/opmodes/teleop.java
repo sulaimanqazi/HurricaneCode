@@ -24,9 +24,9 @@ public class teleop extends NextFTCOpMode{
     }
 
     private final MotorEx frontLeftmotor = new MotorEx("frontLeft").reversed();
-    private final MotorEx frontRightMotor = new MotorEx("frontLeft").reversed();
-    private final MotorEx backLeftMotor = new MotorEx("frontLeft").reversed();
-    private final MotorEx backRightMotor = new MotorEx("frontLeft").reversed();
+    private final MotorEx frontRightMotor = new MotorEx("frontRight");
+    private final MotorEx backLeftMotor = new MotorEx("backLeft").reversed();
+    private final MotorEx backRightMotor = new MotorEx("backRight");
 
 
     @Override
@@ -57,9 +57,6 @@ public class teleop extends NextFTCOpMode{
 
                 .whenBecomesFalse(Transfer.INSTANCE.off)
                 .whenBecomesFalse(Transfer.INSTANCE.off);
-
-
-
 
         // Transfer Servo controls - X button
         Gamepads.gamepad1().x()
