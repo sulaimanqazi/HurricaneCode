@@ -49,6 +49,9 @@ public class MecanumTeleop2025 extends OpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        transferMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         // create objects
         aprilTagAlign = new AprilTagAlignHelper(hardwareMap,telemetry);
@@ -92,8 +95,6 @@ public class MecanumTeleop2025 extends OpMode {
 
         // Remember current button state
         lastGateState = currentButtonState;
-
-
 
         // if gamepad1.a is held returns true, if not it returns false
         aprilTagAlign.alignToAprilTag(gamepad1.a);
