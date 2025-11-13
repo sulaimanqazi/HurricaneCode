@@ -21,8 +21,8 @@ import org.firstinspires.ftc.teamcode.classes.transferGate;
 public class MecanumTeleop2025 extends OpMode {
 
     private DcMotorEx frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor, intakeMotor, transferMotor, flywheelMotor;
-    public static double kP = 0.5;       // proportional gain
-    public static double kF = 0.00042;    // feedforward gain
+    public static double kP = 0.02;       // proportional gain
+    public static double kF = 0.00035;    // feedforward gain
     public static double maxTargetTPS = 1500; // target speed in ticks/sec
     private static final double OUTPUT_MAX = 1.0;
     private Servo gate;
@@ -117,14 +117,15 @@ public class MecanumTeleop2025 extends OpMode {
 
         }
 
-        if (gamepad2.left_bumper){ intakePower = -1.0;}
+        if (gamepad2.left_bumper){
+            intakePower = -1;}
 
         else if (gamepad2.right_trigger > 0.05) {intakePower = gamepad2.right_trigger; // reverse with variable speed
         intakeMotor.setPower(intakePower);}
 
         // Right bumper = transfer forward; Left trigger = reverse transfer
         if (gamepad2.right_bumper){
-            transferPower = -1.0;}
+            transferPower = -0.5;}
         else if (gamepad2.left_trigger > 0.05)
         {transferPower = gamepad2.left_trigger; // reverse with variable speed
         transferMotor.setPower(transferPower);}
