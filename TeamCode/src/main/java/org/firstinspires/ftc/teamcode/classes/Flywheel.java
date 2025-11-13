@@ -12,16 +12,18 @@ public class Flywheel {
     private Telemetry telemetry;
 
     // PID coefficients
-    private static final double kP = 0.0012;
-    private static final double kI = 0.0;
-    private static final double kD = 0.0002;
+    public static double kP = 0.0012;
+    public static double kI = 0.0;
+    public static double kD = 0.0002;
 
     // Feedforward coefficient (tune this)
-    private static final double kF = 0.00035;
+    public static double kF = 0.00035;
 
-    private static final double TARGET_RPM = 2500.0;
-    private double integralSum = 0.0;
-    private double lastError = 0.0;
+    public static double TARGET_RPM = 2500.0;
+    public double integralSum = 0.0;
+    public double lastError = 0.0;
+
+    public double velocity;
 
     public Flywheel(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
@@ -37,7 +39,7 @@ public class Flywheel {
             return;
         }
 
-        double velocity = flywheelMotor.getVelocity() * 60.0 / 28.0; // ticks/sec → RPM (adjust 28 for your motor’s ticks/rev)
+        velocity = flywheelMotor.getVelocity() * 60.0 / 28.0; // ticks/sec → RPM (adjust 28 for your motor’s ticks/rev)
         double error = TARGET_RPM - velocity;
 
         // PID
@@ -59,5 +61,7 @@ public class Flywheel {
         telemetry.addData("Current RPM", velocity);
         telemetry.addData("Output Power", output);
         telemetry.addData("Error", error);
+
+
     }
 }
