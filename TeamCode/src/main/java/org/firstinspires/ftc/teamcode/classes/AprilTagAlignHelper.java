@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.classes;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -7,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
+@Config
 public class AprilTagAlignHelper {
     private Limelight3A limelight;
     private IMU imu;
@@ -15,9 +16,9 @@ public class AprilTagAlignHelper {
     private Telemetry telemetry;
 
     // PID constants
-    private static final double kP = 0.04;
-    private static final double MIN_POWER = 0.05;
-    private static final double TX_TOLERANCE = 1.0;
+    public static  double kP = 0.04;
+    public static  double MIN_POWER = 0.05;
+    public static  double TX_TOLERANCE = 1.0;
 
     public AprilTagAlignHelper(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;

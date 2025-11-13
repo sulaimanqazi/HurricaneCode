@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.classes.AprilTagAlignHelper;
 import org.firstinspires.ftc.teamcode.classes.Flywheel;
 import org.firstinspires.ftc.teamcode.classes.transferGate;
 @Config
-@TeleOp(name = "teleop")
+@TeleOp(name = "TeleOp")
 
 public class MecanumTeleop2025 extends OpMode {
 
@@ -28,11 +28,9 @@ public class MecanumTeleop2025 extends OpMode {
     private Servo gate;
 
     AprilTagAlignHelper aprilTagAlign;
-    Flywheel FlywheelPID;
-    transferGate Gate;
 
-    boolean toggle = false;
-    boolean GateState = false;
+
+
     String gateLabel;
 
     private boolean lastButtonState = false;
@@ -93,13 +91,12 @@ public class MecanumTeleop2025 extends OpMode {
         telemetry.addData("Target TPS", targetTPS);
         telemetry.addData("Measured TPS", measuredTPS);
         telemetry.addData("Power", power);
-        telemetry.addData("Gate", gateLabel);
 
-        if (servoToggled){
-          gateLabel = "close";}
-        else{
-            gateLabel = "open";;
-        }
+//        if (servoToggled){
+//          gateLabel = "close";}
+//        else{
+//            gateLabel = "open";;
+//        }
 
 
         //boolean buttonPressed = gamepad2.a;
