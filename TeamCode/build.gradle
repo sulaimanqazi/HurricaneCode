@@ -37,6 +37,7 @@ android {
 repositories {
     maven {
         url = "https://repo.dairy.foundation/releases"
+        url = 'https://maven.brott.dev/'
     }
 }
 
@@ -53,4 +54,10 @@ dependencies {
 
     // Sinister Sloth library (from limelight branch)
     implementation "dev.frozenmilk.sinister:Sloth:0.2.4"
+
+    //roadrunner
+    implementation "com.acmerobotics.roadrunner:ftc:0.1.25"
+    implementation "com.acmerobotics.roadrunner:core:1.0.1"
+    implementation "com.acmerobotics.roadrunner:actions:1.0.1"
+    implementation "com.acmerobotics.dashboard:dashboard:0.5.1"
 }
