@@ -30,13 +30,18 @@ public class autonomousPath extends LinearOpMode {
         Actions.runBlocking(
                 drive.actionBuilder(startPose)
                         .strafeToLinearHeading(scorePose.position, scorePose.heading)
+
+
                 .splineToLinearHeading(new Pose2d(firstLinePose.position, firstLinePose.heading), firstLinePose.heading)
                 .lineToY(-55)
+
+
                 .splineToLinearHeading(new Pose2d(scorePose.position, scorePose.heading), scorePose.heading)
+
                 .splineToLinearHeading(new Pose2d(secondLinePose.position, secondLinePose.heading), secondLinePose.heading)
                 .lineToY(-55)
+
                 .splineToLinearHeading(new Pose2d(scorePose.position, scorePose.heading), scorePose.heading)
-                        .waitSeconds(2)
                         .build()
         );
     }
