@@ -106,7 +106,7 @@ public class teleop extends OpMode {
         }
 
         if (gamepad2.right_bumper){
-            transferMotor.setPower(-1);
+            transferMotor.setPower(-0.5);
         }
         else{
             transferMotor.setPower(0);
