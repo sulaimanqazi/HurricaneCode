@@ -20,166 +20,122 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 @Autonomous(name = "BLUE_TEST_AUTO_PIXEL", group = "Autonomous")
-public class centerstage extends LinearOpMode {
-    public class Lift {
-        private DcMotorEx lift;
+public class Centerstage extends LinearOpMode {
+    public class Intake {
+        private DcMotorEx intakeMotor;
 
-        public Lift(HardwareMap hardwareMap) {
-            lift = hardwareMap.get(DcMotorEx.class, "liftMotor");
-            lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        public Intake(HardwareMap hardwareMap) {
+            intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
+            intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //may change to float?
+            intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //added
         }
 
-        public class LiftUp implements Action {
-            private boolean initialized = false;
+        public class IntakeOn implements Action {
 
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                if (!initialized) {
-                    lift.setPower(0.8);
-                    initialized = true;
-                }
-
-                double pos = lift.getCurrentPosition();
-                packet.put("liftPos", pos);
-                if (pos < 3000.0) {
-                    return true;
-                } else {
-                    lift.setPower(0);
-                    return false;
-                }
+                intakeMotor.setPower(0.8);
+                return false; // Chatgpt keeps on going back on forth on whether I return true or false, not sure what to do here
             }
         }
-        public Action liftUp() {
-            return new LiftUp();
+
+        public Action IntakeOn() {
+            return new IntakeOn();
         }
 
-        public class LiftDown implements Action {
-            private boolean initialized = false;
+        public class IntakeOff implements Action {
 
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                if (!initialized) {
-                    lift.setPower(-0.8);
-                    initialized = true;
-                }
 
-                double pos = lift.getCurrentPosition();
-                packet.put("liftPos", pos);
-                if (pos > 100.0) {
-                    return true;
-                } else {
-                    lift.setPower(0);
-                    return false;
-                }
+
+                intakeMotor.setPower(0); // no PID loop for these simple motors
+                return false; //Return false for off
             }
+
         }
-        public Action liftDown(){
-            return new LiftDown();
+
+        public Action IntakeOff() {
+            return new IntakeOff();
         }
     }
 
-    public class Claw {
-        private Servo claw;
+    public class Transfer {
+        private DcMotorEx transferMotor;
 
-        public Claw(HardwareMap hardwareMap) {
-            claw = hardwareMap.get(Servo.class, "claw");
+        public Transfer(HardwareMap hardwareMap) {
+            transferMotor = hardwareMap.get(DcMotorEx.class, "transferMotor");
+            transferMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); //changed to float
+            transferMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            transferMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //added
         }
 
-        public class CloseClaw implements Action {
+        public class TransferOn implements Action {
+
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(0.55);
-                return false;
+                transferMotor.setPower(0.8);
+                return false;  // Chatgpt keeps on going back on forth on whether I return true or false, not sure what to do here
             }
-        }
-        public Action closeClaw() {
-            return new CloseClaw();
         }
 
-        public class OpenClaw implements Action {
+        public Action TransferOn() {
+            return new TransferOn();
+        }
+
+        public class TransferOff implements Action {
+
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                claw.setPosition(1.0);
-                return false;
+
+
+                transferMotor.setPower(0); // No PID for these simple motors
+                return false; //Return false immediately
             }
+
         }
-        public Action openClaw() {
-            return new OpenClaw();
+
+        public Action TransferOff() {
+            return new TransferOff();
         }
     }
-
     @Override
     public void runOpMode() {
-        Pose2d initialPose = new Pose2d(11.8, 61.7, Math.toRadians(90));
-        MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
-        Claw claw = new Claw(hardwareMap);
-        Lift lift = new Lift(hardwareMap);
+        // Define poses using your friend's approach
+        final Pose2d startPose = new Pose2d(-51, -48, Math.toRadians(230));
+        final Pose2d scorePose = new Pose2d(-25, -20, Math.toRadians(230));
+        final Pose2d firstLinePose = new Pose2d(-12, -22, Math.toRadians(270));
+        final Pose2d secondLinePose = new Pose2d(12, -22, Math.toRadians(270));
 
-        // vision here that outputs position
-        int visionOutputPosition = 1;
+        MecanumDrive drive = new MecanumDrive(hardwareMap, startPose);
+        Intake intake = new Intake(hardwareMap);
+        Transfer transfer = new Transfer(hardwareMap);
 
-        TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
-                .lineToYSplineHeading(33, Math.toRadians(0))
-                .waitSeconds(2)
-                .setTangent(Math.toRadians(90))
-                .lineToY(48)
-                .setTangent(Math.toRadians(0))
-                .lineToX(32)
-                .strafeTo(new Vector2d(44.5, 30))
-                .turn(Math.toRadians(180))
-                .lineToX(47.5)
-                .waitSeconds(3);
-        TrajectoryActionBuilder tab2 = drive.actionBuilder(initialPose)
-                .lineToY(37)
-                .setTangent(Math.toRadians(0))
-                .lineToX(18)
-                .waitSeconds(3)
-                .setTangent(Math.toRadians(0))
-                .lineToXSplineHeading(46, Math.toRadians(180))
-                .waitSeconds(3);
-        TrajectoryActionBuilder tab3 = drive.actionBuilder(initialPose)
-                .lineToYSplineHeading(33, Math.toRadians(180))
-                .waitSeconds(2)
-                .strafeTo(new Vector2d(46, 30))
-                .waitSeconds(3);
-        Action trajectoryActionCloseOut = tab1.endTrajectory().fresh()
-                .strafeTo(new Vector2d(48, 12))
-                .build();
-
-        // actions that need to happen on init; for instance, a claw tightening.
-        Actions.runBlocking(claw.closeClaw());
-
-
-        while (!isStopRequested() && !opModeIsActive()) {
-            int position = visionOutputPosition;
-            telemetry.addData("Position during Init", position);
-            telemetry.update();
-        }
-
-        int startPosition = visionOutputPosition;
-        telemetry.addData("Starting Position", startPosition);
+        telemetry.addData("Status", "Ready!");
         telemetry.update();
+
         waitForStart();
 
         if (isStopRequested()) return;
 
-        Action trajectoryActionChosen;
-        if (startPosition == 1) {
-            trajectoryActionChosen = tab1.build();
-        } else if (startPosition == 2) {
-            trajectoryActionChosen = tab2.build();
-        } else {
-            trajectoryActionChosen = tab3.build();
-        }
-
+        // Single chained path with intake actions - your friend's style
         Actions.runBlocking(
                 new SequentialAction(
-                        trajectoryActionChosen,
-                        lift.liftUp(),
-                        claw.openClaw(),
-                        lift.liftDown(),
-                        trajectoryActionCloseOut
+                        intake.IntakeOn(),
+                        transfer.TransferOn(),
+                        drive.actionBuilder(startPose)
+                                .strafeToLinearHeading(scorePose.position, scorePose.heading)
+                                .splineToLinearHeading(new Pose2d(firstLinePose.position, firstLinePose.heading), firstLinePose.heading)
+                                .lineToY(-55)
+                                .splineToLinearHeading(new Pose2d(scorePose.position, scorePose.heading), scorePose.heading)
+                                .splineToLinearHeading(new Pose2d(secondLinePose.position, secondLinePose.heading), secondLinePose.heading)
+                                .lineToY(-55)
+                                .splineToLinearHeading(new Pose2d(scorePose.position, scorePose.heading), scorePose.heading)
+                                .waitSeconds(2)
+                                .build(),
+                        intake.IntakeOff(),
+                        transfer.TransferOff()
                 )
         );
     }
