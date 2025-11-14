@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opModes.teleoOp;
 
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -8,17 +8,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.classes.AprilTagAlignHelper;
-import org.firstinspires.ftc.teamcode.classes.Flywheel;
-import org.firstinspires.ftc.teamcode.classes.transferGate;
 @Config
 @TeleOp(name = "TeleOp")
 
-public class MecanumTeleop2025 extends OpMode {
+public class teleop extends OpMode {
 
     private DcMotorEx frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor, intakeMotor, transferMotor, flywheelMotor;
     public static double kP = 0.5;       // proportional gain
