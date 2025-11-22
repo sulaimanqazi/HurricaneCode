@@ -5,16 +5,16 @@ import com.acmerobotics.roadrunner.Pose2d;
 
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
-
+@Disabled
 @Autonomous(name = "Autonomous Path", group = "Autonomous")
 public class autonomousPath extends LinearOpMode {
 
     private MecanumDrive drive;
-
     @Override
     public void runOpMode() {
         final Pose2d startPose = new Pose2d(-51,-48, Math.toRadians(230));
@@ -22,6 +22,7 @@ public class autonomousPath extends LinearOpMode {
         final Pose2d firstLinePose = new Pose2d(-12, -22, Math.toRadians(270));
         final Pose2d secondLinePose = new Pose2d(12, -22, Math.toRadians(270));
         MecanumDrive drive = new MecanumDrive(hardwareMap, startPose);
+
 
         waitForStart();
 

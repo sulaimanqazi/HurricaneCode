@@ -23,8 +23,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 @Config
-@Autonomous(name = "Blue_Auto", group = "Autonomous")
-public class autonomous_Blue extends LinearOpMode {
+@Autonomous(name = "Red_Auto", group = "Autonomous")
+public class autonomous_Red extends LinearOpMode {
 
     // ===================== SHOOTER SUBSYSTEM =====================
     public static class Shooter {
@@ -190,10 +190,11 @@ public class autonomous_Blue extends LinearOpMode {
     // ===================== MAIN AUTO =====================
     @Override
     public void runOpMode() {
-        final Pose2d startPose = new Pose2d(-51,-48, Math.toRadians(230));
-        final Pose2d scorePose = new Pose2d(-25, -20,Math.toRadians(225));
-        final Pose2d firstLinePose = new Pose2d(-12, -21, Math.toRadians(270));
-        final Pose2d secondLinePose = new Pose2d(12, -24, Math.toRadians(270));
+        Pose2d startPose      = new Pose2d(-51, 48, Math.toRadians(135));
+        Pose2d scorePose      = new Pose2d(-25, 20, Math.toRadians(135));
+        Pose2d firstLinePose  = new Pose2d(-12, 22, Math.toRadians(90));
+        Pose2d secondLinePose = new Pose2d(12, 24, Math.toRadians(90));
+        Pose2d thirdLinePose  = new Pose2d(-36, 43, Math.toRadians(90));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, startPose);
         Shooter shooter = new Shooter(hardwareMap);
@@ -202,7 +203,6 @@ public class autonomous_Blue extends LinearOpMode {
 
         // Build the full auto path as one trajectory action
         TrajectoryActionBuilder shootingFirstBall = drive.actionBuilder(startPose)
-
                 .strafeToLinearHeading(scorePose.position, scorePose.heading)
                 .waitSeconds(4)
 
@@ -211,7 +211,7 @@ public class autonomous_Blue extends LinearOpMode {
                 .splineToLinearHeading(
                         new Pose2d(firstLinePose.position, firstLinePose.heading),
                         firstLinePose.heading)
-                .lineToY(-55)
+                .lineToY(55)
 
                 .splineToLinearHeading(new Pose2d(scorePose.position, scorePose.heading),
                         scorePose.heading)
@@ -221,19 +221,14 @@ public class autonomous_Blue extends LinearOpMode {
                 //CHANGE
                 .waitSeconds(5)
                 .splineToLinearHeading(new Pose2d(secondLinePose.position, secondLinePose.heading), secondLinePose.heading)
-                .lineToY(-55)
-                .lineToY(-40)
+                .lineToY(55)
+                .lineToY(40)
                 .splineToLinearHeading(
-                new Pose2d(scorePose.position, scorePose.heading),
-                scorePose.heading);
-
+                        new Pose2d(scorePose.position, scorePose.heading),
+                        scorePose.heading);
 
 
         Action firstBall = shootingFirstBall.build();
-
-
-
-
 
 
 
@@ -260,6 +255,8 @@ public class autonomous_Blue extends LinearOpMode {
 
                         new SequentialAction(
 
+                                //First Ball Preloaded
+
                                 new SleepAction(1.5),
                                 shooter.runTransferForSeconds(0.5, autonomous_Red.Shooter.TRANSFER_POWER),
                                 new SleepAction(1),
@@ -278,7 +275,7 @@ public class autonomous_Blue extends LinearOpMode {
                                 shooter.runIntakeForSeconds(5, autonomous_Red.Shooter.INTAKE_POWER),
 
                                 //FirstBall FirstLIne
-                                shooter.runTransferForSeconds(1, autonomous_Red.Shooter.TRANSFER_POWER),
+                                shooter.runTransferForSeconds(0.5, autonomous_Red.Shooter.TRANSFER_POWER),
 
                                 new SleepAction(1),
                                 //Second Ball FirstLIne
@@ -289,7 +286,7 @@ public class autonomous_Blue extends LinearOpMode {
 
                                 //Thirdball FirstLIne
                                 shooter.runTransferForSeconds(0.5, autonomous_Red.Shooter.TRANSFER_POWER),
-                                 new SleepAction(2),
+                                new SleepAction(2),
 
 
                                 //intake SecondLine
@@ -309,9 +306,11 @@ public class autonomous_Blue extends LinearOpMode {
                                 //Thirdball Second Line
                                 shooter.runTransferForSeconds(0.5, autonomous_Red.Shooter.TRANSFER_POWER)
 
-                                )
-        )
- );
+
+
+                        )
+                )
+        );
 
         shooter.stopAll();
     }
